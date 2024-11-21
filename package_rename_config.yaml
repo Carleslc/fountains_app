@@ -1,0 +1,20 @@
+# Rename package for release
+package_rename_config:
+
+  android:
+    # To localize app names for different languages, see:
+    # https://developer.android.com/guide/topics/resources/app-languages
+    # android/app/src/main/AndroidManifest.xml
+    app_name: Fountains Finder
+    package_name: me.carleslc.fountains
+    override_old_package: me.carleslc.fountains_app
+  
+  ios:
+    app_name: Fountains Finder
+    bundle_name: me.carleslc
+    package_name: me.carleslc.fountains
+  
+  web:
+    app_name: Fountains Finder
+    short_app_name: Fountains Finder
+    description: This app helps users find public drinking water sources.

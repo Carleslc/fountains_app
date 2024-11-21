@@ -1,0 +1,36 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flutter (debug)",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "debug"
+    },
+    {
+      "name": "Flutter (release)",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "release"
+    },
+    {
+      "name": "Flutter (chrome)",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": ["-d", "chrome", "--web-renderer", "html"]
+    },
+    {
+      "name": "Flutter (chrome release)",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": ["-d", "chrome", "--web-renderer", "html"]
+    }
+  ]
+}

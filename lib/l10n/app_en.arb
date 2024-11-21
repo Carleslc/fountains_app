@@ -1,0 +1,307 @@
+{
+  "@@locale": "en",
+  "appTitle": "Fountains Finder",
+  "@appTitle": {
+    "description": "App title that appears in AppBar"
+  },
+  "fountain": "Fountain",
+  "@fountain": {
+    "description": "Default fountain name"
+  },
+  "fountainFee": "Requires a payment",
+  "@fountainFee": {
+    "description": "Fountain requires a payment"
+  },
+  "fountainTypeTapWaterPublic": "Public fountain",
+  "@fountainTypeTapWaterPublic": {
+    "description": "Public tap water fountain type"
+  },
+  "fountainTypeTapWaterPrivate": "Private fountain",
+  "@fountainTypeTapWaterPrivate": {
+    "description": "Private tap water fountain type"
+  },
+  "fountainTypeNatural": "Natural spring",
+  "@fountainTypeNatural": {
+    "description": "Natural spring fountain type"
+  },
+  "fountainTypeWaterPoint": "Water point",
+  "@fountainTypeWaterPoint": {
+    "description": "Water point fountain type"
+  },
+  "fountainTypeWateringPlace": "Watering place",
+  "@fountainTypeWateringPlace": {
+    "description": "Watering place fountain type"
+  },
+  "fountainTypeUnknown": "Unknown fountain",
+  "@fountainTypeUnknown": {
+    "description": "Unknown fountain type"
+  },
+  "safeWater": "Drinking water",
+  "@safeWater": {
+    "description": "Fountain water safe water label"
+  },
+  "safeWaterYes": "Yes",
+  "@safeWaterYes": {
+    "description": "Fountain water is safe to drink"
+  },
+  "safeWaterProbably": "Yes (Probably)",
+  "@safeWaterProbably": {
+    "description": "Fountain water is probably safe to drink"
+  },
+  "safeWaterNo": "No",
+  "@safeWaterNo": {
+    "description": "Fountain water is not safe to drink"
+  },
+  "unknown": "Unknown",
+  "@unknown": {
+    "description": "Unknown text, e.g. for a fountain unknown safe water"
+  },
+  "legalWaterTreated": "Treated water approved by public authorities",
+  "@legalWaterTreated": {
+    "description": "Fountain water treated water label"
+  },
+  "legalWaterUntreated": "Water is untreated",
+  "@legalWaterUntreated": {
+    "description": "Fountain water untreated water label"
+  },
+  "access": "Access",
+  "@access": {
+    "description": "Fountain access label"
+  },
+  "fountainAccessPublic": "Public",
+  "@fountainAccessPublic": {
+    "description": "Fountain access is public"
+  },
+  "fountainAccessPermissive": "Permissive",
+  "@fountainAccessPermissive": {
+    "description": "Fountain access is permissive"
+  },
+  "fountainAccessCustomers": "Customers only",
+  "@fountainAccessCustomers": {
+    "description": "Fountain access is customers only"
+  },
+  "fountainAccessPermit": "Requires a permit",
+  "@fountainAccessPermit": {
+    "description": "Fountain access requires a permit"
+  },
+  "fountainAccessPrivate": "Private",
+  "@fountainAccessPrivate": {
+    "description": "Fountain access is private"
+  },
+  "fountainAccessRestricted": "Restricted",
+  "@fountainAccessRestricted": {
+    "description": "Fountain access is restricted"
+  },
+  "operationalStatusNotWorking": "Not working",
+  "@operationalStatusNotWorking": {
+    "description": "Fountain is not working or has no water"
+  },
+  "operationalStatusNoWater": "No water",
+  "@operationalStatusNoWater": {
+    "description": "Fountain has no water"
+  },
+  "moreInfo": "More information",
+  "@moreInfo": {
+    "description": "More information text, e.g. for a fountain website"
+  },
+  "accessibleWheelchair": "Accessible with wheelchair",
+  "@accessibleWheelchair": {
+    "description": "Fountain is accessible with wheelchair"
+  },
+  "notAccessibleWheelchair": "Not accessible with wheelchair",
+  "@notAccessibleWheelchair": {
+    "description": "Fountain is not accessible with wheelchair"
+  },
+  "accessiblePets": "Accessible for pets",
+  "@accessiblePets": {
+    "description": "Fountain is accessible for pets"
+  },
+  "notAccessiblePets": "Not accessible for pets",
+  "@notAccessiblePets": {
+    "description": "Fountain is not accessible for pets"
+  },
+  "accessibleBottles": "Easy to refill bottles",
+  "@accessibleBottles": {
+    "description": "Fountain is easy to refill bottles"
+  },
+  "notAccessibleBottles": "Not easy to refill bottles",
+  "@notAccessibleBottles": {
+    "description": "Fountain is not easy to refill bottles"
+  },
+  "northRotation": "North rotation",
+  "@northRotation": {
+    "description": "Tooltip of the compass button"
+  },
+  "centerLocation": "Center location",
+  "@centerLocation": {
+    "description": "Tooltip of the center location floating action button"
+  },
+  "zoomMessage": "Zoom in to show fountains",
+  "@zoomMessage": {
+    "description": "Message to zoom in to fetch fountains when the map zoom is lower than fetch threshold"
+  },
+  "fetchingFountains": "Fetching fountains...",
+  "@fetchingFountains": {
+    "description": "Message shown when fetching fountains"
+  },
+  "fountainsError": "Error fetching fountains",
+  "@fountainsError": {
+    "description": "Message shown when fetching fountains fails"
+  },
+  "fountainsNetworkError": "Could not fetch fountains",
+  "@fountainsNetworkError": {
+    "description": "Message shown when fetching fountains fails because of a network error"
+  },
+  "updatingLocation": "Obtaining location...",
+  "@updatingLocation": {
+    "description": "Message shown when retrieving the current location"
+  },
+  "locationError": "Cannot obtain location",
+  "@locationError": {
+    "description": "Message shown when failing to retrieve the current location"
+  },
+  "continueButton": "Continue",
+  "@continueButton": {
+    "description": "Continue button text"
+  },
+  "enable": "Enable",
+  "@enable": {
+    "description": "Enable location button text"
+  },
+  "allow": "Allow",
+  "@allow": {
+    "description": "Allow permissions button text"
+  },
+  "locationServicesDisabled": "Location services are disabled.",
+  "@locationServicesDisabled": {
+    "description": "Message shown when location services are disabled"
+  },
+  "locationPermissionsDenied": "Location permissions denied.",
+  "@locationPermissionsDenied": {
+    "description": "Message shown when location permissions are denied"
+  },
+  "locationPermissions": "Location permissions",
+  "@locationPermissions": {
+    "description": "Title of the location usage dialog before requesting permissions"
+  },
+  "locationPermissionsUsage": "Please allow location permissions to see your location in the map.",
+  "@locationPermissionsUsage": {
+    "description": "Content of the location usage dialog before requesting permissions"
+  },
+  "noConnection": "No internet connection",
+  "@noConnection": {
+    "description": "Tooltip for the connection status icon"
+  },
+  "noConnectionCheck": "No internet connection.\nCheck your connection to fetch fountains.",
+  "@noConnectionCheck": {
+    "description": "Message shown when the internet connection is lost"
+  },
+  "connectionLost": "Internet connection lost",
+  "@connectionLost": {
+    "description": "Message shown when the internet connection is lost"
+  },
+  "connectionResumed": "You have internet connection again",
+  "@connectionResumed": {
+    "description": "Message shown when the internet connection is resumed"
+  },
+  "navigationError": "Navigation error",
+  "@navigationError": {
+    "description": "Error when screen navigation fails"
+  },
+  "imageLoading": "Loading image...",
+  "@imageLoading": {
+    "description": "Tooltip when an image is loading"
+  },
+  "imageError": "Cannot load image",
+  "@imageError": {
+    "description": "Tooltip when an image fails to load"
+  },
+  "backToMap": "Back to map",
+  "@backToMap": {
+    "description": "Tooltip for the back to map button in fountain details"
+  },
+  "urlError": "Cannot open url:\n{url}",
+  "@urlError": {
+    "description": "Message shown when fails to open a url",
+    "placeholders": {
+      "url": {
+        "type": "String",
+        "example": "https://example.com"
+      }
+    }
+  },
+  "go": "Go",
+  "@go": {
+    "description": "Go to maps button text"
+  },
+  "openIn": "Open in {app}",
+  "@openIn": {
+    "description": "Go to maps button tooltip",
+    "placeholders": {
+      "app": {
+        "type": "String",
+        "example": "Google Maps"
+      }
+    }
+  },
+  "cannotOpen": "Cannot open {app}",
+  "@cannotOpen": {
+    "description": "Cannot open maps app message",
+    "placeholders": {
+      "app": {
+        "type": "String",
+        "example": "Google Maps"
+      }
+    }
+  },
+  "about": "About",
+  "@about": {
+    "description": "About screen title"
+  },
+  "aboutDescriptionTitle": "Description",
+  "@aboutDescriptionTitle": {
+    "description": "About screen description title"
+  },
+  "aboutDescription": "Access to drinking water is essential for health, a fundamental human right, and a key aspect of effective health protection policies. This app helps users find public drinking water sources, supporting efforts towards sustainable development and the protection of this vital resource.",
+  "@aboutDescription": {
+    "description": "About screen description"
+  },
+  "aboutTermsTitle": "Terms and conditions",
+  "@aboutTermsTitle": {
+    "description": "About screen terms and conditions title"
+  },
+  "aboutTerms": "We advise all users to use their own discretion and judgment before drinking water from any of the fountains or water points referenced in this application.\n\nIt is important that users, especially those planning itineraries, do not rely solely on the information provided by the application. We recommend contacting local tourist offices or other residents of the areas they plan to visit to confirm the availability of drinking water on their route.\n\nAlthough we do our best to record all available water sources and keep our data as up-to-date as possible through information provided by OpenStreetMap, user reports, and data supplied by some municipalities, we cannot guarantee that the information provided is always accurate or up-to-date. The location of the fountains may not be correct, the fountains may not be operational or may not have water, and we cannot ensure that the water is safe to drink.\n\nIf you find any errors or outdated information, we encourage you to report it in the fountain information to help the application display the most accurate data possible about each fountain at any given time.\n\nThe application is not affiliated with or related to any municipalities, responsible companies, manufacturers, or distributors of the water fountains. We do not assume any responsibility for the quality, availability, or potability of the water from the fountains listed in the application.\n\nThe use of this application implies acceptance of these terms. The use of the fountains listed in the application is at your own risk, and the developers will not be responsible for any damage or harm resulting from the use of the information provided.",
+  "@aboutTerms": {
+    "description": "About screen terms and conditions"
+  },
+  "aboutVersionTitle": "App version",
+  "@aboutVersionTitle": {
+    "description": "About screen version title"
+  },
+  "aboutAttributionsTitle": "Attributions",
+  "@aboutAttributionsTitle": {
+    "description": "About screen attributions title"
+  },
+  "attributionOpenStreetMap": "This application uses data from OpenStreetMap, a global geographic database created by volunteers.\n\nYou can edit information and add drinking water sources directly on OpenStreetMap.\n\nIf you modify OpenStreetMap data, the changes will be reflected in this application within 24 hours.",
+  "@attributionOpenStreetMap": {
+    "description": "About screen attribution and information about OpenStreetMap"
+  },
+  "attributionProviders": "Other data providers for water sources",
+  "@attributionProviders": {
+    "description": "About screen header for other data providers of water sources"
+  },
+  "attributionFreepik": "Some images used in this application have been obtained from Freepik.",
+  "@attributionFreepik": {
+    "description": "About screen attribution to Freepik"
+  },
+  "attributionIcons": "The icons used in this application are from {icons}.",
+  "@attributionIcons": {
+    "description": "About screen attribution to icons",
+    "placeholders": {
+      "icons": {
+        "type": "String",
+        "example": "Material Symbols"
+      }
+    }
+  }
+}
