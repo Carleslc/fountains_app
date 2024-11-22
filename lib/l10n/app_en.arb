@@ -303,5 +303,176 @@
         "example": "Material Symbols"
       }
     }
+  },
+  "addComment": "Add a comment",
+  "@addComment": {
+    "description": "Add comment button to open dialog"
+  },
+  "addCommentTitle": "Add a comment",
+  "@addCommentTitle": {
+    "description": "Add comment dialog title"
+  },
+  "addCommentUsage": "Add a comment about the fountain status or other information for other people.",
+  "@addCommentUsage": {
+    "description": "Add comment dialog usage text"
+  },
+  "addCommentButton": "Comment",
+  "@addCommentButton": {
+    "description": "Add comment button to submit comment"
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile screen title"
+  },
+  "name": "Username",
+  "@name": {
+    "description": "User name label"
+  },
+  "nameRequired": "User name is required",
+  "@nameRequired": {
+    "description": "User name not blank validation message"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email label"
+  },
+  "emailRequired": "Email is required",
+  "@emailRequired": {
+    "description": "Email not blank validation message"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password label"
+  },
+  "passwordRequired": "Password is required",
+  "@passwordRequired": {
+    "description": "Password not blank validation message"
+  },
+  "minLength": "Minimum {minLength} characters",
+  "@minLength": {
+    "description": "Minimum length validation message",
+    "placeholders": {
+      "minLength": {
+        "type": "int",
+        "example": "6"
+      }
+    }
+  },
+  "register": "Register",
+  "@register": {
+    "description": "Register screen title"
+  },
+  "registerAction": "Sign up",
+  "@registerAction": {
+    "description": "Navigate to register screen button text"
+  },
+  "registerButton": "Create account",
+  "@registerButton": {
+    "description": "Sign up button text"
+  },
+  "login": "Login",
+  "@login": {
+    "description": "Login screen title"
+  },
+  "loginAction": "Sign in",
+  "@loginAction": {
+    "description": "Navigate to login screen button text"
+  },
+  "loginButton": "Sign in",
+  "@loginButton": {
+    "description": "Sign in button text"
+  },
+  "googleSignIn": "Sign in with Google",
+  "@googleSignIn": {
+    "description": "Google sign in button text"
+  },
+  "askRegister": "Don't have an account?",
+  "@askRegister": {
+    "description": "Ask to register text"
+  },
+  "askLogin": "Already have an account?",
+  "@askLogin": {
+    "description": "Ask to login text"
+  },
+  "loginUsageComment": "Sign in to comment on fountains.",
+  "@loginUsageComment": {
+    "description": "Login usage text to comment on fountains"
+  },
+  "loggedInAs": "Logged in as {name}",
+  "@loggedInAs": {
+    "description": "User logged in message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout tooltip"
+  },
+  "loggedOut": "You have been logged out",
+  "@loggedOut": {
+    "description": "Logged out message"
+  },
+  "logoutRedirect": "You have been logged out.\nRedirecting to login...",
+  "@logoutRedirect": {
+    "description": "Logout redirect message"
+  },
+  "invalidEmailFormat": "Invalid email format",
+  "@invalidEmailFormat": {
+    "description": "Invalid email format message"
+  },
+  "emailAlreadyInUse": "An account with this email already exists",
+  "@emailAlreadyInUse": {
+    "description": "Email already in use message"
+  },
+  "userNotFound": "No user found with this email. Register if you don't have an account.",
+  "@userNotFound": {
+    "description": "User not found message"
+  },
+  "wrongPassword": "Wrong email / password",
+  "@wrongPassword": {
+    "description": "Incorrect password message"
+  },
+  "weakPassword": "The password is not strong enough. Add more alphanumeric, numeric, or special characters.",
+  "@weakPassword": {
+    "description": "Weak password message"
+  },
+  "userDisabled": "User account is disabled",
+  "@userDisabled": {
+    "description": "User account disabled message"
+  },
+  "accountExistsWithDifferentCredential": "An account already exists with a different provider (Sign in with Google)",
+  "@accountExistsWithDifferentCredential": {
+    "description": "Account exists with different credential message"
+  },
+  "signInCancelled": "Sign in cancelled",
+  "@signInCancelled": {
+    "description": "Sign in cancelled by user message"
+  },
+  "tooManyRequests": "Too many sign in attempts. Try again later.",
+  "@tooManyRequests": {
+    "description": "Too many sign in attempts message"
+  },
+  "userTokenExpired": "Your session has expired. Sign in again.",
+  "@userTokenExpired": {
+    "description": "User session expired message"
+  },
+  "invalidCredential": "Credentials are invalid or have expired",
+  "@invalidCredential": {
+    "description": "Invalid credential message"
+  },
+  "operationNotAllowed": "This authentication method is not enabled",
+  "@operationNotAllowed": {
+    "description": "Authentication method not enabled message"
+  },
+  "networkRequestFailed": "Authentication failed. Check your internet connection.",
+  "@networkRequestFailed": {
+    "description": "Network request failed message"
+  },
+  "authenticationFailed": "Authentication failed",
+  "@authenticationFailed": {
+    "description": "Authentication failed message"
   }
 }

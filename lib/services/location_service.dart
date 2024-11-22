@@ -88,7 +88,12 @@ class LocationService {
         .map<bool>((ServiceStatus locationStatus) =>
             locationStatus == ServiceStatus.enabled)
         .handleError((e, stackTrace) {
-      error('Error while listening to location service status', e, stackTrace);
+      error(
+        'Error while listening to location service status',
+        error: e,
+        stackTrace: stackTrace,
+        report: true,
+      );
     });
   }
 

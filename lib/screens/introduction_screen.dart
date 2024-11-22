@@ -24,11 +24,7 @@ class _IntroductionScreenState extends State<IntroductionScreen>
 
   /// Navigate to Map Screen
   void _navigateToMap() {
-    Navigation.navigateTo(
-      AppScreens.map,
-      replace: true,
-      errorMessage: l.navigationError,
-    );
+    Navigation.navigateTo(AppScreens.map, l, replace: true);
   }
 
   @override

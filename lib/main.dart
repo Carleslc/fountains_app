@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 import 'providers/fountains_provider.dart';
 import 'providers/internet_provider.dart';
 import 'providers/location_provider.dart';
+import 'providers/user_provider.dart';
 import 'router/navigation.dart';
+import 'screens/map_screen.dart';
 import 'screens/splash_screen.dart';
 import 'styles/app_styles.dart';
 import 'utils/message.dart';
@@ -34,7 +36,11 @@ class FountainsApp extends StatelessWidget {
         // Internet connection provider
         ChangeNotifierProvider<InternetProvider>(
           create: (_) => InternetProvider(),
-        )
+        ),
+        // User provider
+        ChangeNotifierProvider<UserProvider>(
+          create: (_) => UserProvider(),
+        ),
       ],
       child: MaterialApp(
         // Theme
@@ -46,6 +52,7 @@ class FountainsApp extends StatelessWidget {
         // Navigation routes
         routes: Navigation.routes,
         navigatorKey: Navigation.navigatorKey,
+        navigatorObservers: [MapScreen.routeObserver],
         // Localization
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: [
@@ -59,7 +66,7 @@ class FountainsApp extends StatelessWidget {
         // App Title (localized)
         onGenerateTitle: (context) => l10n(context).appTitle,
         // Debug banner
-        debugShowCheckedModeBanner: true,
+        debugShowCheckedModeBanner: false,
         // Debug performance overlay
         showPerformanceOverlay: false,
       ),

@@ -25,6 +25,9 @@ final class TextStyles {
   /// Small text
   final small = textStyle(fontSize: 14);
 
+  /// Smaller text
+  final smaller = textStyle(fontSize: 12);
+
   /// Bold text with font variant
   final bold = textStyle(fontWeight: FontWeight.bold);
 

@@ -8,7 +8,10 @@
       "name": "Flutter (debug)",
       "type": "dart",
       "request": "launch",
-      "flutterMode": "debug"
+      "flutterMode": "debug",
+      "args": [
+        // "--verbose"
+      ]
     },
     {
       "name": "Flutter (release)",

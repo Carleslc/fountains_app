@@ -4,7 +4,10 @@ import '../models/fountain.dart';
 import '../screens/about_screen.dart';
 import '../screens/fountain_screen.dart';
 import '../screens/introduction_screen.dart';
+import '../screens/login_screen.dart';
 import '../screens/map_screen.dart';
+import '../screens/profile_screen.dart';
+import '../screens/register_screen.dart';
 
 /// Routes for the screens of this app
 abstract final class AppScreens {
@@ -14,6 +17,9 @@ abstract final class AppScreens {
       introduction,
       map,
       about,
+      login,
+      register,
+      profile,
       fountain,
     ],
   );
@@ -31,6 +37,29 @@ abstract final class AppScreens {
   static final about = AppScreen(
     '/about',
     (context) => const AboutScreen(),
+  );
+
+  static final login = AppScreen(
+    '/login',
+    (context) {
+      final String? email =
+          ModalRoute.of(context)?.settings.arguments as String?;
+      return LoginScreen(email: email?.trim());
+    },
+  );
+
+  static final register = AppScreen(
+    '/register',
+    (context) {
+      final String? email =
+          ModalRoute.of(context)?.settings.arguments as String?;
+      return RegisterScreen(email: email?.trim());
+    },
+  );
+
+  static final profile = AppScreen(
+    '/profile',
+    (context) => const ProfileScreen(),
   );
 
   static final fountain = AppScreen(

@@ -36,7 +36,7 @@ final class ColorStyles {
   /// Titles color
   late final Color titleTextColor; // darkAccent, Alt: Colors.black87
 
-  /// e.g. TextField borders, ProgressIndicator, disabled buttons color...
+  /// e.g. TextField borders, disabled buttons color...
   ///
   /// ColorScheme: outline
   final Color gray = Colors.grey;

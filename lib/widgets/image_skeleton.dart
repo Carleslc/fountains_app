@@ -11,14 +11,16 @@ import 'skeleton_container.dart';
 
 class ImageSkeleton extends StatefulWidget {
   final String imageUrl;
+  final BorderRadius borderRadius;
   final FilterQuality filterQuality;
   final Object? Function()? onErrorContext;
 
-  const ImageSkeleton({
+  ImageSkeleton({
     required this.imageUrl,
+    BorderRadius? borderRadius,
     this.filterQuality = FilterQuality.medium,
     this.onErrorContext,
-  });
+  }) : borderRadius = borderRadius ?? BorderRadius.circular(8);
 
   @override
   State<ImageSkeleton> createState() => _ImageSkeletonState();
@@ -70,7 +72,7 @@ class _ImageSkeletonState extends State<ImageSkeleton> with Localization {
         ),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: widget.borderRadius,
         child: Image.network(
           key: _imageKey,
           widget.imageUrl,

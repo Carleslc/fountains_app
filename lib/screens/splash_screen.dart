@@ -7,13 +7,16 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/internet_provider.dart';
+import '../providers/user_provider.dart';
 import '../router/app_screens.dart';
 import '../router/navigation.dart';
+import '../services/firebase_service.dart';
 import '../styles/app_styles.dart';
 import '../utils/locale.dart';
 import '../utils/logger.dart';
 import '../utils/platform.dart';
 import '../widgets/localization.dart';
+import '../widgets/logo.dart';
 import '../widgets/skeleton_container.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -32,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> with Localization {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       await init();
       onLoaded();
-    }, debugLabel: 'splash initAsync');
+    }, debugLabel: 'splash init');
   }
 
   /// Asynchronous initializations required to load before the main screen is loaded
@@ -46,18 +49,20 @@ class _SplashScreenState extends State<SplashScreen> with Localization {
     // Load package info
     await loadPackageInfo();
 
+    // Initialize Firebase
+    await FirebaseService().initialize();
+
     // Check connection status
     await context.read<InternetProvider>().startInternetStatusUpdates();
+
+    // Listen to user authentication state updates
+    context.read<UserProvider>().listenToUserUpdates();
   }
 
   /// After initializations
   void onLoaded() {
     /// Navigate to the introduction screen
-    Navigation.navigateTo(
-      AppScreens.introduction,
-      replace: true,
-      errorMessage: l.navigationError,
-    );
+    Navigation.navigateTo(AppScreens.introduction, l, replace: true);
   }
 
   @override
@@ -74,11 +79,7 @@ class _SplashScreenState extends State<SplashScreen> with Localization {
             colorOpacity: 0.5,
             color: AppStyles.color.scheme.inversePrimary,
             backgroundColor: AppStyles.color.scheme.surface,
-            child: Image.asset(
-              'assets/icons/logo.png',
-              width: imageSize,
-              height: imageSize,
-            ),
+            child: Logo(size: imageSize),
           );
         },
       ),

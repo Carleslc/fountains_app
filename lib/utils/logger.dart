@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
+import '../services/firebase_service.dart';
+
 /// Logger
 final Logger _logger = _createLogger();
 
@@ -50,22 +52,55 @@ void info(String message) {
 /// Log a warning [message] in console, with an optional [error] exception
 ///
 /// [Level.warning]
-void warning(String message, [Object? error, StackTrace? stackTrace]) {
+void warning(String message, {Object? error, StackTrace? stackTrace}) {
   _logger.w(message, error: error, stackTrace: stackTrace);
 }
 
-/// Log an error [message] with an [error] in console
+/// Log an error [message] with an [error] in console.
+///
+/// If [report] then the error is reported to Crashlytics.
 ///
 /// [Level.error]
-void error(String? message, [Object? error, StackTrace? stackTrace]) {
-  _logger.e(message ?? error?.toString(), error: error, stackTrace: stackTrace);
+void error(
+  String? message, {
+  Object? error,
+  StackTrace? stackTrace,
+  bool report = false,
+  bool fatal = false,
+}) {
+  message ??= error?.toString();
+
+  _logger.e(message, error: error, stackTrace: stackTrace);
+
+  if (report) {
+    // Report error to Crashlytics
+    FirebaseService().reportError(
+      error,
+      stackTrace: stackTrace,
+      reason: message,
+      fatal: fatal,
+    );
+  }
 }
 
-/// Log an [errorObject] exception in console
+/// Log an [errorObject] exception in console.
+///
+/// If [report] then the error is reported to Crashlytics.
 ///
 /// [Level.error]
-void exception(Object? errorObject, [StackTrace? stackTrace]) {
-  error(null, errorObject, stackTrace);
+void exception(
+  Object? errorObject, {
+  StackTrace? stackTrace,
+  bool report = true,
+  bool fatal = false,
+}) {
+  error(
+    null,
+    error: errorObject,
+    stackTrace: stackTrace,
+    report: report,
+    fatal: fatal,
+  );
 }
 
 /// Log an [errorMessage] with an optional [errorObject] and [errorContext] in console
@@ -76,11 +111,13 @@ void errorWithContext(
   Object? errorObject,
   StackTrace? stackTrace,
   Object? errorContext,
+  bool report = false,
 }) {
   error(
     messageWithContext(errorMessage, errorContext),
-    errorObject,
-    stackTrace,
+    error: errorObject,
+    stackTrace: stackTrace,
+    report: report,
   );
 }
 
@@ -93,7 +130,11 @@ void warningWithContext(
   StackTrace? stackTrace,
   Object? context,
 }) {
-  warning(messageWithContext(message, context), errorObject, stackTrace);
+  warning(
+    messageWithContext(message, context),
+    error: errorObject,
+    stackTrace: stackTrace,
+  );
 }
 
 /// Join [message] with an optional [context]

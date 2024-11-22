@@ -43,3 +43,11 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Firebase
+# flutterfire configure --project=fountains-finder-app
+# https://firebase.google.com/docs/projects/learn-more#config-files-objects
+firebase.json
+lib/firebase_options.dart
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist

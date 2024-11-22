@@ -11,6 +11,7 @@
   * [Visual Studio Code](#visual-studio-code)
   * [Build](#build)
     + [i18n / l10n](#i18n--l10n)
+    + [Firebase](#firebase)
     + [Android](#android)
     + [iOS](#ios)
     + [Web](#web)
@@ -29,6 +30,12 @@
   * [State management](#state-management)
   * [Permissions](#permissions)
   * [Maps and geolocation](#maps-and-geolocation)
+  * [Firebase](#firebase-1)
+    + [Authentication](#authentication)
+    + [Firestore Database](#firestore-database)
+    + [Cloud Storage](#cloud-storage)
+    + [Analytics](#analytics)
+    + [Crashlytics](#crashlytics)
   * [Release](#release-2)
   * [Other](#other-1)
 
@@ -85,7 +92,6 @@ flutter run # -h
 
 ```
 lib
-├── main.dart
 ├── exceptions
 ├── l10n
 ├── models
@@ -95,7 +101,9 @@ lib
 ├── services
 ├── styles
 ├── utils
-└── widgets
+├── widgets
+├── firebase_options.dart
+└── main.dart
 ```
 
 Flutter app code is at `lib/`.
@@ -126,6 +134,33 @@ flutter gen-l10n
 These files are also generated on flutter build and run.
 
 If some translations are missing they are reported in `l10n_missing_translations.json`.
+
+#### [Firebase](https://console.firebase.google.com/)
+
+[Configure Firebase](https://firebase.google.com/docs/flutter/setup?hl=es-419&platform=android) for this project:
+
+```sh
+# Install Firebase CLI
+npm install -g firebase-tools
+
+# Login to Firebase
+firebase login
+
+# Activate FlutterFire CLI
+dart pub global activate flutterfire_cli
+
+# Configure Firebase project
+flutterfire configure
+```
+
+This will generate different [firebase configuration files](https://firebase.google.com/docs/projects/learn-more#config-files-objects) to setup the firebase project:
+
+```
+firebase.json
+lib/firebase_options.dart
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+```
 
 #### Android
 
@@ -158,8 +193,8 @@ adb -s device-ID install -r build/app/outputs/flutter-apk/app-debug.apk
 adb -s device-ID install -r build/app/outputs/flutter-apk/app-release.apk
 
 # Uninstall app from the device
-adb uninstall me.carleslc.fountains_app
-adb -s device-ID uninstall me.carleslc.fountains_app
+adb uninstall me.carleslc.fountains
+adb -s device-ID uninstall me.carleslc.fountains
 ```
 
 #### iOS
@@ -198,6 +233,22 @@ Build the release app:
 
 ```sh
 flutter build apk --release
+```
+
+### App fingerprint
+
+[Autenticación Google Play Services](https://developers.google.com/android/guides/client-auth?hl=es-419)
+
+Firma SHA1:
+
+```sh
+# Debug fingerprint
+keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore
+# default password: android
+
+# Release fingerprint
+keytool -list -v -alias fountains_app -keystore android/app/release-key.jks
+# use password from android/key.properties
 ```
 
 ## Resources
@@ -271,6 +322,25 @@ flutter build apk --release
 - [flutter_map](https://fluttergems.dev/packages/flutter_map/)
 - [flutter_map_location_marker](https://pub.dev/packages/flutter_map_location_marker)
 - [flutter_map_marker_cluster](https://pub.dev/packages/flutter_map_marker_cluster)
+
+### Firebase
+- [firebase_core](https://pub.dev/packages/firebase_core)
+
+#### Authentication
+- [firebase_auth](https://pub.dev/packages/firebase_auth)
+- [google_sign_in](https://pub.dev/packages/google_sign_in)
+
+#### Firestore Database
+- [cloud_firestore](https://pub.dev/packages/cloud_firestore)
+
+#### Cloud Storage
+- [firebase_storage](https://pub.dev/packages/firebase_storage)
+
+#### Analytics
+- [firebase_analytics](https://pub.dev/packages/firebase_analytics)
+
+#### Crashlytics
+- [firebase_crashlytics](https://pub.dev/packages/firebase_crashlytics)
 
 ### Release
 `--dev`

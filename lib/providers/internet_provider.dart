@@ -102,7 +102,12 @@ class InternetProvider extends ChangeNotifier {
       try {
         _setInternetStatus(await internetService.getConnectionStatus());
       } catch (e, stackTrace) {
-        error('Error checking the connection status', e, stackTrace);
+        error(
+          'Error checking the connection status',
+          error: e,
+          stackTrace: stackTrace,
+          report: true,
+        );
       }
 
       _internetStatusListener =
@@ -114,7 +119,12 @@ class InternetProvider extends ChangeNotifier {
       try {
         _setConnectivityMode(await internetService.getConnectivityMode());
       } catch (e, stackTrace) {
-        error('Error checking the connectivity mode', e, stackTrace);
+        error(
+          'Error checking the connectivity mode',
+          error: e,
+          stackTrace: stackTrace,
+          report: true,
+        );
       }
 
       _connectivityModeListener =

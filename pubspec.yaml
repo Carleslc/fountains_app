@@ -21,7 +21,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
 # Also change it in android/local.properties
-version: 1.0.0+1
+version: 1.1.0+1
 
 environment:
   sdk: ">=3.4.3 <4.0.0"
@@ -75,10 +75,28 @@ dependencies:
   geolocator: ^13.0.1
   geocoding: ^3.0.0
 
+  # Firebase
+  firebase_core: ^3.8.0
+
+  ## Authentication
+  firebase_auth: ^5.3.3
+  google_sign_in: ^6.2.2
+
+  ## Firestore Database
+  cloud_firestore: ^5.5.0
+
+  ## Cloud Storage
+  firebase_storage: ^12.3.6
+
+  ## Analytics
+  firebase_analytics: ^11.3.5
+  firebase_crashlytics: ^4.1.5
+
   # Other
   introduction_screen: ^3.1.14
-  skeletonizer: ^1.4.2
   package_info_plus: ^8.1.1
+  skeletonizer: ^1.4.2
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:

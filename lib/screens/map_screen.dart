@@ -21,6 +21,7 @@ import '../utils/location.dart';
 import '../utils/logger.dart';
 import '../utils/message.dart';
 import '../widgets/connection_status.dart';
+import '../widgets/loading_indicator.dart';
 import '../widgets/localization.dart';
 import '../widgets/location_usage_dialog.dart';
 import '../widgets/map/compass_button.dart';
@@ -29,8 +30,12 @@ import '../widgets/map/map_controller.dart';
 import '../widgets/map/openstreetmap.dart';
 import '../widgets/map/openstreetmap_controller.dart';
 import '../widgets/skeleton_container.dart';
+import '../widgets/user_button.dart';
 
 class MapScreen extends StatefulWidget {
+  /// Route observer so we can stop fetching data if the map is not visible
+  static final RouteObserver<ModalRoute> routeObserver = RouteObserver();
+
   const MapScreen({super.key});
 
   @override
@@ -38,7 +43,8 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen>
-    with Localization, WidgetsBindingObserver {
+    with Localization, WidgetsBindingObserver, RouteAware {
+  /// Default location when no location is available
   static const Location _defaultLocation = Location(40, 0);
 
   late FountainsProvider _fountainsProvider;
@@ -96,6 +102,9 @@ class _MapScreenState extends State<MapScreen>
   final GlobalKey<ConnectionStatusState> _connectionStatusKey =
       GlobalKey<ConnectionStatusState>();
 
+  /// App is in background?
+  bool _isPaused = false;
+
   @override
   void initState() {
     super.initState();
@@ -108,18 +117,20 @@ class _MapScreenState extends State<MapScreen>
     _locationProvider = context.read<LocationProvider>();
     _locationProvider.addListener(_onNewPosition);
     WidgetsBinding.instance.addObserver(this);
+    _checkLocationPermissions();
   }
 
   @override
   void didChangeDependencies() {
+    _listenToRouteChanges();
     _onScreenSizeChanged();
-    _checkLocationPermissions();
     super.didChangeDependencies();
   }
 
   @override
   void dispose() {
     _fetchDebounce?.cancel();
+    _stopListeningToRouteChanges();
     _internetProvider.stopInternetStatusUpdates();
     _locationProvider.removeListener(_onNewPosition);
     _locationProvider.stopLocationUpdates();
@@ -136,11 +147,62 @@ class _MapScreenState extends State<MapScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (_openedSettings && state == AppLifecycleState.resumed) {
-      // Back from settings
-      _openedSettings = false;
-      _updateCurrentLocation(override: true);
+    if (isMapOnForeground) {
+      if (state == AppLifecycleState.resumed) {
+        _resume();
+        if (_openedSettings) {
+          // Back from settings
+          _openedSettings = false;
+          _updateCurrentLocation(override: true);
+        }
+      } else if (state == AppLifecycleState.paused) {
+        _pause();
+      }
     }
+  }
+
+  /// Whether this map is the current screen
+  bool get isMapOnForeground => ModalRoute.of(context)?.isCurrent ?? false;
+
+  /// Listen to screen navigation changes
+  void _listenToRouteChanges() {
+    _stopListeningToRouteChanges();
+    MapScreen.routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  /// Stop listening to screen navigation changes
+  void _stopListeningToRouteChanges() {
+    MapScreen.routeObserver.unsubscribe(this);
+  }
+
+  /// A route is pushed from the map (e.g. about or login)
+  @override
+  void didPushNext() {
+    if (!isMapOnForeground) {
+      _pause();
+    }
+  }
+
+  /// A route is popped to the map (e.g. back from about or login)
+  @override
+  void didPopNext() {
+    if (isMapOnForeground) {
+      _resume();
+    }
+  }
+
+  /// Pause fetching fountains
+  void _pause() {
+    if (_isPaused) return;
+    _fetchDebounce?.cancel();
+    _isPaused = true;
+  }
+
+  /// Resume fetching fountains
+  void _resume() {
+    if (!_isPaused) return;
+    _isPaused = false;
+    _scheduleFetchFountains(const Duration(milliseconds: 500));
   }
 
   /// Called when a new position is notified by [LocationProvider]
@@ -186,7 +248,7 @@ class _MapScreenState extends State<MapScreen>
     _updateMapStatus();
 
     // Schedule fetching fountains when map move ends and is idle
-    _fetchDebounce = Timer(const Duration(milliseconds: 750), _fetchFountains);
+    _scheduleFetchFountains(const Duration(milliseconds: 750));
   }
 
   /// Map is moving
@@ -212,20 +274,25 @@ class _MapScreenState extends State<MapScreen>
     });
   }
 
+  /// Schedule fetching fountains after a delay
+  void _scheduleFetchFountains(final Duration duration) {
+    _fetchDebounce?.cancel();
+    _fetchDebounce = Timer(duration, _fetchFountains);
+  }
+
   /// Fetch fountains when screen size changes
   void _onScreenSizeChanged() {
     final Size? lastScreenSize = _currentScreenSize;
     final Size screenSize = MediaQuery.sizeOf(context);
 
     if (lastScreenSize != screenSize) {
-      debug('Screen $screenSize');
+      // debug('Screen $screenSize');
 
       _currentScreenSize = screenSize;
 
       if (lastScreenSize != null) {
         // Schedule fetching fountains when screen size changes and is idle
-        _fetchDebounce?.cancel();
-        _fetchDebounce = Timer(const Duration(seconds: 1), _fetchFountains);
+        _scheduleFetchFountains(const Duration(seconds: 1));
       }
     }
   }
@@ -304,7 +371,6 @@ class _MapScreenState extends State<MapScreen>
           _locationProvider.isLocationServiceEnabled) {
         await _startLocationUpdates();
       } else {
-        // debug('Update current location');
         await _locationProvider.updateCurrentPosition();
       }
     } on LocationServicesDisabledException catch (e) {
@@ -318,6 +384,7 @@ class _MapScreenState extends State<MapScreen>
         log: 'Error getting the location',
         errorObject: e,
         stackTrace: stackTrace,
+        report: true,
       );
     } finally {
       // Finish loading
@@ -361,7 +428,12 @@ class _MapScreenState extends State<MapScreen>
           case LocationPermissionDeniedException():
             _onLocationPermissionDenied(e);
           default:
-            error('Error while listening to location updates', e, stackTrace);
+            error(
+              'Error while listening to location updates',
+              error: e,
+              stackTrace: stackTrace,
+              report: true,
+            );
         }
       },
     );
@@ -437,7 +509,7 @@ class _MapScreenState extends State<MapScreen>
 
   /// Fetch fountains from API for the current bounding box
   Future<void> _fetchFountains() async {
-    if (!mounted || !_mapLoaded) return;
+    if (!mounted || !_mapLoaded || _isPaused) return;
 
     // avoid fetching without connection
     if (_internetProvider.isOffline) {
@@ -468,12 +540,11 @@ class _MapScreenState extends State<MapScreen>
     final stopwatch = Stopwatch()..start();
 
     // Show loading message if fetching takes some time
-    final fetchTimer = Timer(const Duration(seconds: 1), () {
+    final fetchTimer = Timer(const Duration(seconds: 3), () {
       if (_loadingFountainsMessage == null) {
-        _loadingFountainsMessage = ShowMessage.sticky(
-          l.fetchingFountains,
-          loading: true,
-        );
+        setState(() {
+          _loadingFountainsMessage = ShowMessage.sticky(l.fetchingFountains);
+        });
         _loadingFountainsMessage?.onClosed(() {
           _loadingFountainsMessage = null;
         });
@@ -481,7 +552,9 @@ class _MapScreenState extends State<MapScreen>
     });
 
     // Register concurrent requests
-    _fetchingContexts[fetchContext] = fetchTimer;
+    setState(() {
+      _fetchingContexts[fetchContext] = fetchTimer;
+    });
 
     try {
       await _internetProvider.ensureInternetConnection();
@@ -507,12 +580,14 @@ class _MapScreenState extends State<MapScreen>
         log: 'Could not fetch fountains (no internet)',
         errorObject: e,
         icon: ConnectionStatus.icon(_internetProvider),
+        seconds: 10,
       );
     } on HttpResponseError catch (e) {
       ShowMessage.error(
         l.fountainsNetworkError,
         log: 'Could not fetch fountains (network error)',
         errorObject: e,
+        report: true,
       );
     } catch (e, stackTrace) {
       // Other errors
@@ -521,6 +596,7 @@ class _MapScreenState extends State<MapScreen>
         log: 'Error fetching fountains',
         errorObject: e,
         stackTrace: stackTrace,
+        report: true,
       );
     } finally {
       stopwatch.stop();
@@ -530,10 +606,15 @@ class _MapScreenState extends State<MapScreen>
 
       if (_fetchingContexts.isEmpty) {
         // all fetching finished
-        _loadingFountainsMessage?.close();
+        setState(() {
+          _loadingFountainsMessage?.close();
+        });
       }
     }
   }
+
+  /// If is currently fetching fountains
+  bool get isFetchingFountains => _fetchingContexts.isNotEmpty;
 
   /// Compass button at top-right corner to reset the rotation to north
   Widget _compassButton() {
@@ -559,15 +640,18 @@ class _MapScreenState extends State<MapScreen>
     );
   }
 
+  /// User button
+  Widget _userButton() {
+    return UserButton(color: AppStyles.color.scheme.secondary);
+  }
+
+  /// About screen icon
   Widget _about() {
     return IconButton(
       tooltip: l.about,
-      icon: const Icon(Icons.info),
+      icon: const Icon(Icons.info, size: 28),
       onPressed: () {
-        Navigation.navigateTo(
-          AppScreens.about,
-          errorMessage: l.navigationError,
-        );
+        Navigation.navigateTo(AppScreens.about, l);
       },
     );
   }
@@ -628,11 +712,22 @@ class _MapScreenState extends State<MapScreen>
     );
   }
 
+  /// Loading indicator if fetching fountains
+  LoadingIndicator? _loadingIndicator() {
+    return isFetchingFountains
+        ? LoadingIndicator(
+            backgroundColor: AppStyles.color.scheme.inversePrimary,
+          )
+        : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(l.appTitle),
+        leading: _userButton(),
+        bottom: _loadingIndicator(),
         actions: [
           // Internet status icon
           _connectionStatus(),

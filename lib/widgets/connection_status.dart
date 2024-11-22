@@ -78,6 +78,7 @@ class ConnectionStatusState extends State<ConnectionStatus> with Localization {
           icon: ConnectionStatus.icon(_internetProvider),
           log: NoInternetException().message,
           sticky: _internetProvider.wasOffline,
+          seconds: 10,
         );
         _hasShownOfflineMessage = true;
         widget.onConnectionLost?.call();

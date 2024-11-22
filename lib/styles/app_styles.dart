@@ -54,8 +54,8 @@ abstract final class AppStyles {
             color.scheme.onPrimaryContainer, // Alt: colorScheme.onPrimary
         titleTextStyle: text.appBarTitle,
       ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
           disabledBackgroundColor: color.gray,
           disabledForegroundColor: color.scheme.onInverseSurface,
         ),
@@ -80,6 +80,10 @@ abstract final class AppStyles {
           foregroundColor: color.scheme.primary,
         ),
       ),
+      inputDecorationTheme: InputDecorationTheme(
+        errorStyle: text.small,
+        errorMaxLines: 2,
+      ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: color.scheme.inverseSurface,
         actionTextColor: color.scheme.inversePrimary,
@@ -98,8 +102,9 @@ abstract final class AppStyles {
         ),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: color.gray,
+        color: color.scheme.primary,
         linearTrackColor: color.lightGray,
+        circularTrackColor: color.lightGray,
       ),
       dialogTheme: DialogTheme(
         titleTextStyle: text.header,

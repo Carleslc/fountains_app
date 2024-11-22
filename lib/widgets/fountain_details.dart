@@ -37,7 +37,7 @@ Future<void> showFountainDetails(
   }
   return Navigation.navigateToFountain(
     fountain,
-    errorMessage: l10n(context).navigationError,
+    l10n(context),
   );
 }
 
@@ -291,7 +291,10 @@ Widget _type(Fountain fountain, AppLocalizations l) {
 }
 
 Widget _image(
-    Fountain fountain, Size screenSize, Orientation screenOrientation) {
+  Fountain fountain,
+  Size screenSize,
+  Orientation screenOrientation,
+) {
   String? imageUrl = fountain.picture;
 
   if (imageUrl == null) return const SizedBox.shrink();

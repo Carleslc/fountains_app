@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import '../utils/message.dart';
 
 /// Base exception for all custom exceptions of this app
@@ -14,12 +16,15 @@ abstract class AppException implements Exception {
 ///
 /// [onErrorMessage] can be used instead to lazily generate the error message.\
 /// [onErrorContext] is logged along with [onErrorLogMessage], [onErrorMessage] or [errorMessage].
+///
+/// If [report] is true then the error is reported to Crashlytics.
 Future<T?> tryOrShowError<T>(
   Future<T?> Function() f, {
   String? errorMessage,
   String Function()? onErrorMessage,
   Object Function()? onErrorContext,
   String Function(Object? e)? onErrorLogMessage,
+  bool report = false,
 }) async {
   assert(errorMessage != null || onErrorMessage != null);
 
@@ -35,6 +40,7 @@ Future<T?> tryOrShowError<T>(
       errorContext: onErrorContext?.call(),
       errorObject: e,
       stackTrace: stackTrace,
+      report: report,
     );
   }
   return null;

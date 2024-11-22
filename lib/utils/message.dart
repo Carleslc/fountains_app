@@ -20,7 +20,7 @@ abstract class ShowMessage {
   static void hideCurrentSnackBar() {
     scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
     // snackbar is removed from _snackbars using
-    // the onClosed listener added in shown method
+    // the onClosed listener added in show method
   }
 
   /// Close all queued snackbars, if any
@@ -41,6 +41,7 @@ abstract class ShowMessage {
     Object? errorObject,
     StackTrace? stackTrace,
     Object? errorContext,
+    bool report = false,
     IconData? icon,
     int seconds = 10,
     bool sticky = false,
@@ -50,6 +51,7 @@ abstract class ShowMessage {
       errorObject: errorObject,
       errorContext: errorContext,
       stackTrace: stackTrace,
+      report: report,
     );
     return show(
       message,
@@ -71,7 +73,7 @@ abstract class ShowMessage {
     StackTrace? stackTrace,
     Object? context,
     IconData? icon,
-    int seconds = 10,
+    int seconds = 5,
     bool sticky = false,
   }) {
     warningWithContext(
@@ -83,7 +85,7 @@ abstract class ShowMessage {
     return show(
       message,
       icon: icon,
-      backgroundColor: AppStyles.color.scheme.onError,
+      backgroundColor: AppStyles.color.scheme.surfaceBright,
       foregroundColor: AppStyles.color.scheme.error,
       seconds: sticky ? _stickySeconds : seconds,
       sticky: sticky,

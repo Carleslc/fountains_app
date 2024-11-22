@@ -6,10 +6,10 @@ import 'error.dart';
 ///
 /// Exceptions related to network status
 ///
-abstract class ConnectionError extends AppException {}
+abstract class NetworkError extends AppException {}
 
 /// Device is not connected to Internet
-class NoInternetException extends ConnectionError {
+class NoInternetException extends NetworkError {
   @override
   String get message => 'Internet connection is not available';
 }
