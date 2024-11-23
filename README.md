@@ -61,7 +61,79 @@ supporting efforts towards sustainable development and the protection of this vi
 
 ## Images
 
-// TODO: Add example app images
+![5](<./images/5.png>)
+
+Display fountains markers near your location, with clustering.
+
+![6](<./images/6.png>)
+
+In cities.
+
+![7](<./images/7.png>)
+
+And forests.
+
+![11](<./images/11.png>)
+
+There is a zoom limit to not overload your device memory and data usage while keeping a good performance.
+
+![12](<./images/12.png>)
+
+Different kind of water sources, different types of data information.
+
+![14](<./images/14.png>)
+
+Some fountains of turistic interest have an image and maybe also a website.
+
+![16](<./images/16.png>)
+
+You can edit fountains information directly in OpenStreetMap: https://www.openstreetmap.org/
+
+Your changes will be reflected in the app after at most 24 hours.
+
+![17](<./images/17.png>)
+
+Also works without location permission.
+
+![18](<./images/18.png>)
+
+Accessibility data. Open in Google Maps button.
+
+![19-en](<./images/19-en.png>)
+
+🇺🇸🇬🇧 App information.
+
+![19-es](<./images/19-es.png>)
+
+🇪🇸 Información de la aplicación.
+
+![20](<./images/20.png>)
+
+Attribution.
+
+![21](<./images/21.png>)
+
+Log in.
+
+![22](<./images/22.png>)
+
+Sign up.
+
+![25](<./images/25.png>)
+
+Translated to English, Spanish and Catalan.
+
+![26](<./images/26.png>)
+
+Image, distance and accessibility information.
+
+![27](<./images/27.png>)
+
+Fail-safe error handling for unstable networks and connection issues.
+
+![28](<./images/28.png>)
+
+Map with rotation and button at top-right to reset rotation to north.
 
 ## Install
 
@@ -109,6 +181,26 @@ lib
 Flutter app code is at `lib/`.
 
 The starting point is at `main.dart`.
+
+`exceptions`: exceptions of the application domain.
+
+`l10n`: localized messages in English, Spanish and Catalan.
+
+`models`: the models of the application domain, both serializable _data models_ and other utility ones.
+
+`providers`: data providers to manage the state of the data obtained through the different services.
+
+`router`: the screens are defined with routes for navigation between screens of the application, which can be accessed with a global context from the _Navigation_ class.
+
+`screens`: the different screens of the application, starting with the _SplashScreen_. It is important to know, however, that a significant part of the UI code is in other classes that do not correspond exactly to a screen, such as the `widgets/fountain_details.dart` dialog, the `widgets/fountain_marker.dart` marker and the map classes located in the `widgets/map` folder.
+
+`services`: services that use different libraries to obtain the location of the user's device, manage connection changes, manage the user session and obtain the water sources of the _backend_ API.
+
+`styles`: where the main styles of the application are defined, with themes for different widgets in `AppStyles` and centralization of colors and text styles.
+
+`utils`: other utility classes and extensions that do not correspond to a widget. The most relevant ones are `logger.dart` which is responsible for centralizing logging and error management and `message.dart` which is responsible for showing messages.
+
+`widgets`: the rest of the widgets are mostly utility in order to simplify the code.
 
 ## Development
 
@@ -235,11 +327,9 @@ Build the release app:
 flutter build apk --release
 ```
 
-### App fingerprint
+### [App fingerprint](https://developers.google.com/android/guides/client-auth)
 
-[Autenticación Google Play Services](https://developers.google.com/android/guides/client-auth?hl=es-419)
-
-Firma SHA1:
+SHA1
 
 ```sh
 # Debug fingerprint
