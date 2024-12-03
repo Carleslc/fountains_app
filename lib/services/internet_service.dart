@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 import '../exceptions/http.dart';
@@ -14,9 +14,9 @@ class InternetService {
   final Stream<InternetStatus> _internetStatusStream;
 
   /// Stream of connectivity mode changes.
-  Stream<ConnectivityResult> get connectivityModeStream =>
+  Stream<List<ConnectivityResult>> get connectivityModeStream =>
       _connectivityModeStream;
-  final Stream<ConnectivityResult> _connectivityModeStream;
+  final Stream<List<ConnectivityResult>> _connectivityModeStream;
 
   // Singleton service
   factory InternetService() => _instance;
@@ -37,11 +37,11 @@ class InternetService {
 
   /// Returns if the device is connected to a wifi network using [getConnectivityMode].
   Future<bool> get isWifi async =>
-      (await getConnectivityMode()) == ConnectivityResult.wifi;
+      (await getConnectivityMode()).contains(ConnectivityResult.wifi);
 
   /// Returns if the device is connected to a mobile network using [getConnectivityMode].
   Future<bool> get isMobile async =>
-      (await getConnectivityMode()) == ConnectivityResult.mobile;
+      (await getConnectivityMode()).contains(ConnectivityResult.mobile);
 
   /// Check the current connection status trying a network request.
   ///
@@ -51,8 +51,9 @@ class InternetService {
 
   /// Check the current connectivity mode (may be offline).
   ///
-  /// `wifi`, `mobile`, `none`
-  Future<ConnectivityResult> getConnectivityMode() =>
+  /// List of connectivity modes:\
+  /// `wifi`, `mobile`, `bluetooth`, `ethernet`, `vpn`, `other`, `none`
+  Future<List<ConnectivityResult>> getConnectivityMode() =>
       Connectivity().checkConnectivity();
 
   /// Ensure the device currently has internet connection,

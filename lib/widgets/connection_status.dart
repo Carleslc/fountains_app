@@ -1,4 +1,3 @@
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -22,19 +21,19 @@ class ConnectionStatus extends StatefulWidget {
   /// Internet status icon given the connection status and connectivity mode
   static IconData icon(InternetProvider internetProvider) {
     if (internetProvider.isOnline) {
-      return switch (internetProvider.connectivityMode) {
-        ConnectivityResult.wifi => Icons.wifi,
-        ConnectivityResult.mobile => Icons.signal_cellular_alt,
-        ConnectivityResult.none || _ => Icons.signal_wifi_statusbar_null,
-      };
+      if (internetProvider.isWifi) {
+        return Icons.wifi;
+      } else if (internetProvider.isMobile) {
+        return Icons.signal_cellular_alt;
+      }
+      return Icons.signal_wifi_statusbar_null;
     } else if (internetProvider.isOffline) {
-      return switch (internetProvider.connectivityMode) {
-        ConnectivityResult.wifi =>
-          Icons.signal_wifi_statusbar_connected_no_internet_4,
-        ConnectivityResult.mobile =>
-          Icons.signal_cellular_connected_no_internet_4_bar,
-        ConnectivityResult.none || _ => Icons.wifi_off,
-      };
+      if (internetProvider.isWifi) {
+        return Icons.signal_wifi_statusbar_connected_no_internet_4;
+      } else if (internetProvider.isMobile) {
+        return Icons.signal_cellular_connected_no_internet_4_bar;
+      }
+      return Icons.wifi_off;
     }
     return Icons.signal_wifi_bad;
   }

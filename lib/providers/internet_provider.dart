@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
@@ -57,22 +57,24 @@ class InternetProvider extends ChangeNotifier {
     }
   }
 
-  /// Current connectivity mode
-  ConnectivityResult? get connectivityMode => _connectivityMode;
-  ConnectivityResult? _connectivityMode;
+  /// Current connectivity modes
+  List<ConnectivityResult>? get connectivityModes => _connectivityModes;
+  List<ConnectivityResult>? _connectivityModes;
 
   /// Connectivity mode listener
-  StreamSubscription<ConnectivityResult>? _connectivityModeListener;
+  StreamSubscription<List<ConnectivityResult>>? _connectivityModeListener;
 
   /// Returns if the device is connected to a wifi network.
-  bool get isWifi => _connectivityMode == ConnectivityResult.wifi;
+  bool get isWifi =>
+      _connectivityModes?.contains(ConnectivityResult.wifi) ?? false;
 
   /// Returns if the device is connected to a mobile network.
-  bool get isMobile => _connectivityMode == ConnectivityResult.mobile;
+  bool get isMobile =>
+      _connectivityModes?.contains(ConnectivityResult.mobile) ?? false;
 
   /// Change the connectivity mode and notify listeners
-  void _setConnectivityMode(final ConnectivityResult connectivityMode) {
-    _connectivityMode = connectivityMode;
+  void _setConnectivityMode(final List<ConnectivityResult> connectivityModes) {
+    _connectivityModes = connectivityModes;
     notifyListeners();
   }
 

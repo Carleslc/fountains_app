@@ -197,9 +197,9 @@ class _FountainDetailsState extends State<FountainDetails> with Localization {
                       _accessibleIcon(
                         fountain.accessWheelchair!,
                         l.accessibleWheelchair,
-                        Symbols.accessible,
+                        Symbols.accessible, // Alt: accessible_forward
                         l.notAccessibleWheelchair,
-                        Symbols.not_accessible,
+                        Symbols.not_accessible, // Alt: not_accessible_forward
                       ),
 
                     // Pets
