@@ -395,7 +395,7 @@ keytool -list -v -alias fountains_app -keystore android/app/release-key.jks
 ### Network
 - [http](https://pub.dev/packages/http)
 - [url_launcher](https://pub.dev/packages/url_launcher)
-- [connectivity](https://pub.dev/packages/connectivity)
+- [connectivity_plus](https://pub.dev/packages/connectivity_plus)
 - [internet_connection_checker_plus](https://pub.dev/packages/internet_connection_checker_plus)
 
 ### State management

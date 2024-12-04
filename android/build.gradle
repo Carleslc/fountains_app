@@ -1,8 +1,24 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        // https://developer.android.com/reference/tools/gradle-api
+        classpath "com.android.tools.build:gradle:8.7.3"
+    }
+}
+
 allprojects {
     repositories {
         google()
         mavenCentral()
     }
+
+    // Log deprecation warnings for subprojects
+    def showDeprecationWarnings = false
+    def deprecationWarnings = showDeprecationWarnings ? "-Xlint:deprecation" : "-Xlint:-deprecation"
 
     subprojects {
         afterEvaluate { project ->
@@ -15,6 +31,19 @@ allprojects {
                         sourceCompatibility = JavaVersion.VERSION_17
                         targetCompatibility = JavaVersion.VERSION_17
                     }
+                    if (project.android.hasProperty('kotlinOptions')) {
+                        kotlinOptions {
+                            jvmTarget = "17"
+                        }
+                    }
+                }
+            }
+            tasks.withType(JavaCompile) {
+                options.compilerArgs += [deprecationWarnings]
+            }
+            tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+                kotlinOptions {
+                    freeCompilerArgs += [deprecationWarnings]
                 }
             }
         }
