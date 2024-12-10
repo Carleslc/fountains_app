@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
-/// Authenticated user
+/// User data
 class User {
   /// User unique ID
   final String id;

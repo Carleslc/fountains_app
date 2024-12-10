@@ -1,28 +1,32 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../exceptions/auth.dart';
+import '../models/auth_user.dart';
+import '../models/user.dart';
 import '../utils/logger.dart';
 import '../utils/platform.dart';
 import 'firebase_service.dart';
+
+typedef FirebaseUser = auth.User;
 
 /// Service for user authentication with Firebase
 class AuthService {
   final FirebaseService firebaseService = FirebaseService();
 
-  /// Get the current user from Firebase Auth
-  auth.User? get currentAuthUser => firebaseService.auth.currentUser;
+  /// Get the current firebase user from Firebase Auth
+  FirebaseUser? get currentAuthUser => firebaseService.auth.currentUser;
 
   /// Check if the user is logged in
   bool get isLoggedIn => currentAuthUser != null;
 
   /// Register a new user account with [email], [password] and [name].
   ///
-  /// Returns [UserCredential] for the new user.
+  /// Returns the registered [User].
   ///
   /// Throws [AuthException] if there is some error creating the user.
-  Future<auth.User> register({
+  Future<User> register({
     required String email,
     required String password,
     required String name,
@@ -44,10 +48,16 @@ class AuthService {
     );
     if (userCredential.user == null) {
       throw AuthenticationFailedException(
-          'Authentication failed (Register Email/Password)');
+        'Authentication failed (Register Email/Password)',
+      );
     }
-    debug('Register: ${userCredential.user}');
-    return userCredential.user!;
+    final AuthUser authUser = await _signInWithBackend(userCredential.user!);
+    final User user = authUser.user;
+    if (user.isAnonymous) {
+      user.name = name;
+    }
+    debug('Register: $authUser');
+    return user;
   }
 
   /// Log in an existing user with [email] and [password].
@@ -56,7 +66,7 @@ class AuthService {
   ///
   /// Throws [AuthException] if the credentials are invalid
   /// or some other authentication error occurs.
-  Future<auth.User> login({
+  Future<User> login({
     required String email,
     required String password,
   }) async {
@@ -69,19 +79,12 @@ class AuthService {
     );
     if (userCredential.user == null) {
       throw AuthenticationFailedException(
-          'Authentication failed (Login Email/Password)');
+        'Authentication failed (Login Email/Password)',
+      );
     }
-    debug('Login: ${userCredential.user}');
-    return userCredential.user!;
-  }
-
-  /// Sign out the current user
-  Future<void> logout() async {
-    try {
-      await firebaseService.auth.signOut();
-    } on FirebaseAuthException catch (e) {
-      throw AuthenticationFailedException('Failed to logout (${e.message})');
-    }
+    final AuthUser authUser = await _signInWithBackend(userCredential.user!);
+    debug('Login: $authUser');
+    return authUser.user;
   }
 
   /// Sign in user with their Google account.
@@ -89,7 +92,7 @@ class AuthService {
   /// Returns [UserCredential] for the authenticated user.
   ///
   /// Throws [AuthException] if some authentication error occurs.
-  Future<auth.User> signInWithGoogle() async {
+  Future<User> signInWithGoogle() async {
     if (isWeb) {
       final GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
@@ -99,9 +102,13 @@ class AuthService {
         () => firebaseService.auth.signInWithPopup(googleProvider),
       );
       if (userCredential.user == null) {
-        throw AuthenticationFailedException();
+        throw AuthenticationFailedException(
+          'Authentication failed (Login Google)',
+        );
       }
-      return userCredential.user!;
+      final AuthUser authUser = await _signInWithBackend(userCredential.user!);
+      debug('Login (Google): $authUser');
+      return authUser.user;
     }
 
     // Android / iOS
@@ -138,49 +145,80 @@ class AuthService {
         return userCredential;
       },
     );
-
     if (userCredential.user == null) {
-      throw AuthenticationFailedException('Authentication failed (Google)');
+      throw AuthenticationFailedException(
+        'Authentication failed (Login Google)',
+      );
     }
-    return userCredential.user!;
+    final AuthUser authUser = await _signInWithBackend(userCredential.user!);
+    debug('Login (Google): $authUser');
+    return authUser.user;
   }
 
-  /// Wrap firebase authentication exceptions with custom auth exceptions
-  Future<UserCredential> _wrapAuthExceptions(
-    Future<UserCredential> Function() auth, {
-    required bool isEmailPassword,
-  }) async {
+  /// Sign out the current user
+  Future<void> logout() async {
     try {
-      return await auth();
+      await firebaseService.auth.signOut();
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'wrong-password') {
-        throw WrongPasswordException();
-      } else if (e.code == 'email-already-in-use') {
-        throw EmailAlreadyInUseException();
-      } else if (e.code == 'invalid-email') {
-        throw InvalidEmailException();
-      } else if (e.code == 'weak-password') {
-        throw WeakPasswordException();
-      } else if (e.code == 'too-many-requests') {
-        throw TooManyRequestsException();
-      } else if (e.code == 'user-token-expired') {
-        throw UserTokenExpiredException();
-      } else if (e.code == 'user-disabled') {
-        throw UserDisabledException();
-      } else if (e.code == 'user-not-found') {
-        throw UserNotFoundException();
-      } else if (e.code == 'network-request-failed') {
-        throw NetworkRequestFailedException();
-      } else if (e.code == 'operation-not-allowed') {
-        throw OperationNotAllowedException();
-      } else if (e.code == 'INVALID_LOGIN_CREDENTIALS' ||
-          e.code == 'invalid-credential') {
-        if (isEmailPassword) {
-          throw WrongPasswordException();
-        }
-        throw InvalidCredentialException();
-      }
-      rethrow;
+      throw AuthenticationFailedException('Failed to logout (${e.message})');
     }
+  }
+
+  /// Sign in user with backend
+  Future<AuthUser> _signInWithBackend(FirebaseUser firebaseUser) async {
+    final AuthToken authToken = await getAuthToken(firebaseUser);
+    final User user = User.fromFirebase(firebaseUser);
+    final AuthUser authUser = AuthUser(user: user, token: authToken);
+    return authUser;
+  }
+
+  /// Get the user authentication token
+  Future<AuthToken> getAuthToken(FirebaseUser firebaseUser) async {
+    final IdTokenResult idTokenResult = await firebaseUser.getIdTokenResult();
+    return AuthToken(
+      token: idTokenResult.token!,
+      issuedAt: idTokenResult.issuedAtTime,
+      expiration: idTokenResult.expirationTime,
+      lastLogin: idTokenResult.authTime,
+    );
+  }
+}
+
+/// Wrap firebase authentication exceptions with custom auth exceptions
+Future<UserCredential> _wrapAuthExceptions(
+  Future<UserCredential> Function() auth, {
+  required bool isEmailPassword,
+}) async {
+  try {
+    return await auth();
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'wrong-password') {
+      throw WrongPasswordException();
+    } else if (e.code == 'email-already-in-use') {
+      throw EmailAlreadyInUseException();
+    } else if (e.code == 'invalid-email') {
+      throw InvalidEmailException();
+    } else if (e.code == 'weak-password') {
+      throw WeakPasswordException();
+    } else if (e.code == 'too-many-requests') {
+      throw TooManyRequestsException();
+    } else if (e.code == 'user-token-expired') {
+      throw UserTokenExpiredException();
+    } else if (e.code == 'user-disabled') {
+      throw UserDisabledException();
+    } else if (e.code == 'user-not-found') {
+      throw UserNotFoundException();
+    } else if (e.code == 'network-request-failed') {
+      throw NetworkRequestFailedException();
+    } else if (e.code == 'operation-not-allowed') {
+      throw OperationNotAllowedException();
+    } else if (e.code == 'INVALID_LOGIN_CREDENTIALS' ||
+        e.code == 'invalid-credential') {
+      if (isEmailPassword) {
+        throw WrongPasswordException();
+      }
+      throw InvalidCredentialException();
+    }
+    rethrow;
   }
 }

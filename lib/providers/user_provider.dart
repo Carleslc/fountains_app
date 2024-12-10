@@ -32,6 +32,7 @@ class UserProvider extends ChangeNotifier {
   /// Start listening to auth state changes
   void listenToUserUpdates() {
     if (_userAuthListener == null) {
+      // TODO: _authService.onAuthStateChanged stream (decouple firebaseService)
       _userAuthListener = _authService.firebaseService.auth
           .authStateChanges()
           .map(
@@ -62,15 +63,11 @@ class UserProvider extends ChangeNotifier {
     required String password,
     required String name,
   }) async {
-    final authUser = await _authService.register(
+    final user = await _authService.register(
       email: email,
       password: password,
       name: name,
     );
-    final user = User.fromFirebase(authUser);
-    if (user.isAnonymous) {
-      user.name = name;
-    }
     _setUser(user);
   }
 
@@ -81,11 +78,10 @@ class UserProvider extends ChangeNotifier {
     required String email,
     required String password,
   }) async {
-    final authUser = await _authService.login(
+    final user = await _authService.login(
       email: email,
       password: password,
     );
-    final user = User.fromFirebase(authUser);
     _setUser(user);
   }
 
@@ -93,8 +89,7 @@ class UserProvider extends ChangeNotifier {
   ///
   /// Throws [AuthException] if some authentication error occurs.
   Future<void> signInWithGoogle() async {
-    final authUser = await _authService.signInWithGoogle();
-    final user = User.fromFirebase(authUser);
+    final user = await _authService.signInWithGoogle();
     _setUser(user);
   }
 
