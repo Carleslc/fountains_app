@@ -78,6 +78,7 @@
   "name": "Nom d'usuari",
   "nameRequired": "Indica un nom d'usuari",
   "minLength": "Mínim {minLength} caràcters",
+  "maxLength": "Màxim {maxLength} caràcters",
   "email": "Correu electrònic",
   "emailRequired": "Escriu el correu electrònic",
   "password": "Contrasenya",

@@ -78,6 +78,7 @@
   "name": "Nombre de usuario",
   "nameRequired": "Indica un nombre de usuario",
   "minLength": "Mínimo {minLength} caracteres",
+  "maxLength": "Máximo {maxLength} caracteres",
   "email": "Correo electrónico",
   "emailRequired": "Escribe el correo electrónico",
   "password": "Contraseña",

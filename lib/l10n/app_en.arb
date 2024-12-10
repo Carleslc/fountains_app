@@ -358,6 +358,16 @@
       }
     }
   },
+  "maxLength": "Maximum {maxLength} characters",
+  "@maxLength": {
+    "description": "Maximum length validation message",
+    "placeholders": {
+      "maxLength": {
+        "type": "int",
+        "example": "40"
+      }
+    }
+  },
   "register": "Register",
   "@register": {
     "description": "Register screen title"

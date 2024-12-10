@@ -71,6 +71,9 @@ class _RegisterScreenState extends State<RegisterScreen>
     if (name.length < 4) {
       return l.minLength(4);
     }
+    if (name.length > 40) {
+      return l.maxLength(40);
+    }
     return null;
   }
 
