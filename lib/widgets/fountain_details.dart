@@ -550,7 +550,7 @@ Widget _mapsButton(Fountain fountain, BuildContext context) {
           message: l.openIn('Google Maps'),
           child: GoogleMapsButton(
             label: l.go,
-            icon: Symbols.assistant_direction,
+            icon: Icons.assistant_direction,
             latitude: fountain.latitude,
             longitude: fountain.longitude,
             style: AppStyles.primaryButton,
